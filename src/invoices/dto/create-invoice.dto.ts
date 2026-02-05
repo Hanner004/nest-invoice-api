@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsDateString, IsNumber } from 'class-validator';
+import { IsString, IsPositive, IsInt } from 'class-validator';
 
 export class CreateInvoiceDto {
   @ApiProperty({ example: 'INV-111' })
@@ -12,4 +12,17 @@ export class CreateInvoiceDto {
   tax: number;
   @ApiProperty({ example: 119000.0 })
   total: number;
+}
+
+export class CreateInvoiceItemDto {
+  @ApiProperty({ example: 'Item' })
+  @IsString()
+  description: string;
+  @ApiProperty({ example: 2 })
+  @IsInt()
+  @IsPositive()
+  quantity: number;
+  @ApiProperty({ example: 100000.0 })
+  @IsPositive()
+  unit_price: number;
 }
