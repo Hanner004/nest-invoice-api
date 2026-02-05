@@ -1,20 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsPositive, IsInt } from 'class-validator';
+import {
+  IsString,
+  IsPositive,
+  IsInt,
+  IsUUID,
+  ValidateNested,
+  ArrayMinSize,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
-export class CreateInvoiceDto {
-  @ApiProperty({ example: 'INV-111' })
-  invoice_number: string;
-  @ApiProperty({ example: '2024-01-01' })
-  issue_date: Date;
-  @ApiProperty({ example: 100000.0 })
-  subtotal: number;
-  @ApiProperty({ example: 19000.0 })
-  tax: number;
-  @ApiProperty({ example: 119000.0 })
-  total: number;
-}
-
-export class CreateInvoiceItemDto {
+class InvoiceItem {
   @ApiProperty({ example: 'Item' })
   @IsString()
   description: string;
@@ -22,7 +17,24 @@ export class CreateInvoiceItemDto {
   @IsInt()
   @IsPositive()
   quantity: number;
-  @ApiProperty({ example: 100000.0 })
+  @ApiProperty({ example: 100000 })
   @IsPositive()
   unit_price: number;
+}
+
+export class CreateInvoiceDto {
+  @ApiProperty({ example: 'Company ID' })
+  @IsUUID()
+  company_id: string;
+  @ApiProperty({ example: 'Customer ID' })
+  @IsUUID()
+  customer_id: string;
+  @ApiProperty({
+    type: [InvoiceItem],
+    description: 'List of invoice items',
+  })
+  @ValidateNested({ each: true })
+  @Type(() => InvoiceItem)
+  @ArrayMinSize(1)
+  items: InvoiceItem[];
 }

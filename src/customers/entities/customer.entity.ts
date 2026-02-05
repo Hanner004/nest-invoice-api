@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Invoice } from '@/invoices/entities/invoice.entity';
 
 @Entity()
 export class Customer {
@@ -19,6 +21,8 @@ export class Customer {
   document_number: string;
   @Column()
   address: string;
+  @OneToMany(() => Invoice, (invoice) => invoice.customer)
+  invoices: Invoice[];
   @CreateDateColumn()
   created_at: Date;
   @UpdateDateColumn()

@@ -12,10 +12,7 @@ export class InvoicesService {
     private invoicesRepository: Repository<Invoice>,
   ) {}
 
-  async create(createInvoiceDto: CreateInvoiceDto) {
-    const invoice = this.invoicesRepository.create(createInvoiceDto);
-    return this.invoicesRepository.save(invoice);
-  }
+  async create(createInvoiceDto: CreateInvoiceDto) {}
 
   async findAll() {
     return await this.invoicesRepository.find();
@@ -27,9 +24,7 @@ export class InvoicesService {
     return invoice;
   }
 
-  async update(id: string, updateInvoiceDto: UpdateInvoiceDto) {
-    return await this.invoicesRepository.update(id, updateInvoiceDto);
-  }
+  async update(id: string, updateInvoiceDto: UpdateInvoiceDto) {}
 
   async remove(id: string) {
     return await this.invoicesRepository.softDelete(id);
