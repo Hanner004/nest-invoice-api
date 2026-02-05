@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CompaniesModule } from './companies/companies.module';
+import { CustomersModule } from './customers/customers.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CompaniesModule } from './companies/companies.module';
       synchronize: true,
     }),
     CompaniesModule,
+    CustomersModule,
   ],
   controllers: [],
   providers: [],
