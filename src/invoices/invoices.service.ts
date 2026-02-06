@@ -16,7 +16,7 @@ export class InvoicesService {
   ) {}
 
   async generateInvoiceNumber(): Promise<string> {
-    const count = await this.invoicesRepository.count();
+    const count = await this.invoicesRepository.count({ withDeleted: true });
     const nextNumber = count + 1;
     return `INV-${nextNumber.toString().padStart(6, '0')}`;
   }

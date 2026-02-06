@@ -9,5 +9,6 @@ import { InvoiceItem } from '@/invoices/entities/invoiceItem.entity';
   imports: [TypeOrmModule.forFeature([Invoice, InvoiceItem])],
   controllers: [InvoicesController],
   providers: [InvoicesService],
+  exports: [InvoicesService], // Export the InvoicesService to be used in ReportsService
 })
 export class InvoicesModule {}
