@@ -3,6 +3,7 @@ name: factum
 
 services:
   app:
+    image: ${DOCKER_IMAGE_NAME}:${APP_VERSION}
     build:
       context: .
       dockerfile: Dockerfile
