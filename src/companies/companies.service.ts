@@ -14,7 +14,7 @@ export class CompaniesService {
 
   async create(createCompanyDto: CreateCompanyDto) {
     const company = this.companiesRepository.create(createCompanyDto);
-    return this.companiesRepository.save(company);
+    return await this.companiesRepository.save(company);
   }
 
   async findAll() {

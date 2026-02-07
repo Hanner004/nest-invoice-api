@@ -1,6 +1,23 @@
 import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { Invoice } from '../../invoices/entities/invoice.entity';
 
+function formatCOP(amount: number): string {
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}
+
+function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat('es-CO', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+}
+
 export const invoicePdfTemplate = (invoice: Invoice): TDocumentDefinitions => ({
   content: [
     { text: 'FACTURA', style: 'header' },
@@ -13,7 +30,7 @@ export const invoicePdfTemplate = (invoice: Invoice): TDocumentDefinitions => ({
         ],
         [
           { text: `Factura No: ${invoice.invoice_number}` },
-          { text: `Fecha: ${invoice.issue_date.toISOString().split('T')[0]}` },
+          { text: `Fecha: ${formatDate(invoice.issue_date)}` },
         ],
       ],
     },
@@ -34,8 +51,8 @@ export const invoicePdfTemplate = (invoice: Invoice): TDocumentDefinitions => ({
             index + 1,
             item.description,
             item.quantity,
-            `$ ${item.unit_price}`,
-            `$ ${item.total}`,
+            formatCOP(item.unit_price),
+            formatCOP(item.total),
           ]),
         ],
       },
@@ -50,11 +67,11 @@ export const invoicePdfTemplate = (invoice: Invoice): TDocumentDefinitions => ({
           width: 'auto',
           table: {
             body: [
-              ['Subtotal', `$ ${invoice.subtotal}`],
-              ['IVA (19%)', `$ ${invoice.tax}`],
+              ['Subtotal', formatCOP(invoice.subtotal)],
+              ['IVA (19%)', formatCOP(invoice.tax)],
               [
                 { text: 'TOTAL', bold: true },
-                { text: `$ ${invoice.total}`, bold: true },
+                { text: formatCOP(invoice.total), bold: true },
               ],
             ],
           },
